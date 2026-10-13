@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Me — Personal Branding</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ===== ABOUT PAGE SPECIFIC ===== */
+    .page-content {
+      padding-top: 100px;
+      padding-bottom: 80px;
+      max-width: 960px;
+      margin: 0 auto;
+      padding-left: 5%;
+      padding-right: 5%;
+    }
+
+    /* Profile Hero */
+    .profile-hero {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      padding: 40px;
+      margin-bottom: 48px;
+      animation: fadeUp 0.7s ease both;
+    }
+    .profile-avatar {
+      flex-shrink: 0;
+      width: 140px; height: 140px;
+      border-radius: 50%;
+      border: 3px solid rgba(74,127,181,0.3);
+      background: linear-gradient(135deg, var(--sky-top), #dce9f7);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem;
+      color: var(--accent-deep);
+      box-shadow: 0 8px 30px rgba(74,127,181,0.2);
+    }
+    .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .profile-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+    }
+    .profile-tagline {
+      font-size: 0.88rem;
+      color: var(--accent-gold);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 14px;
+    }
+    .profile-bio {
+      font-size: 0.92rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+      max-width: 500px;
+    }
+
+    /* Grid cards */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .info-card {
+      padding: 28px;
+      transition: transform 0.25s, box-shadow 0.25s;
+      animation: fadeUp 0.7s ease both;
+    }
+    .info-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 48px rgba(74,127,181,0.18);
+    }
+    .card-icon { font-size: 1.6rem; margin-bottom: 12px; display: block; }
+    .card-label {
+      font-size: 0.70rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 14px;
+    }
+    .card-list {
+      list-style: none;
+      font-size: 0.875rem;
+      color: var(--text-mid);
+      line-height: 2;
+    }
+    .card-list li { display: flex; align-items: flex-start; gap: 8px; }
+    .card-list li::before { content: '›'; color: var(--accent); font-size: 1.1rem; flex-shrink: 0; }
+
+    /* Education timeline */
+    .timeline { list-style: none; position: relative; padding-left: 24px; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 6px; top: 4px; bottom: 4px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-gold));
+      border-radius: 2px; opacity: 0.4;
+    }
+    .timeline li { position: relative; margin-bottom: 18px; }
+    .timeline li::before {
+      content: '';
+      position: absolute;
+      left: -20px; top: 6px;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid white;
+      box-shadow: 0 0 0 2px rgba(74,127,181,0.25);
+    }
+    .timeline li:last-child { margin-bottom: 0; }
+    .tl-year { font-size: 0.75rem; color: var(--accent-gold); font-weight: 600; letter-spacing: 0.08em; margin-bottom: 2px; }
+    .tl-school { font-size: 0.88rem; font-weight: 600; color: var(--text-dark); }
+    .tl-major { font-size: 0.82rem; color: var(--text-mid); }
+
+    /* Skills section */
+    .skills-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .skill-group-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 16px;
+    }
+    .skill-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 0.80rem;
+      font-weight: 500;
+      margin: 4px 4px 4px 0;
+      transition: transform 0.2s;
+    }
+    .skill-tag:hover { transform: translateY(-2px); }
+    .skill-soft { background: rgba(74,127,181,0.10); color: var(--accent-deep); border: 1px solid rgba(74,127,181,0.22); }
+    .skill-hard { background: rgba(201,168,76,0.12); color: #7a5a10; border: 1px solid rgba(201,168,76,0.30); }
+
+    /* Career goal */
+    .career-card {
+      padding: 40px;
+      margin-bottom: 24px;
+      text-align: center;
+      animation: fadeUp 0.7s ease both;
+    }
+    .career-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.2rem, 3vw, 1.6rem);
+      font-style: italic;
+      color: var(--accent-deep);
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+    .quote-mark { font-size: 3.5rem; color: var(--accent-gold); line-height: 0; vertical-align: -1.2rem; opacity: 0.7; }
+
+    /* Family table */
+    .family-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+    .family-table th {
+      text-align: left;
+      font-size: 0.70rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      padding: 8px 8px 8px 0;
+      border-bottom: 1px solid rgba(74,127,181,0.15);
+      font-weight: 600;
+    }
+    .family-table td {
+      padding: 10px 8px 10px 0;
+      color: var(--text-mid);
+      border-bottom: 1px solid rgba(74,127,181,0.06);
+      vertical-align: top;
+    }
+    .family-table tr:last-child td { border-bottom: none; }
+    .family-table td:first-child { color: var(--text-dark); font-weight: 500; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .delay-1 { animation-delay: 0.10s; }
+    .delay-2 { animation-delay: 0.20s; }
+    .delay-3 { animation-delay: 0.30s; }
+    .delay-4 { animation-delay: 0.40s; }
+
+    @media (max-width: 640px) {
+      .profile-hero { flex-direction: column; text-align: center; padding: 28px 22px; gap: 24px; }
+      .profile-bio { max-width: 100%; }
+      .skills-wrapper { grid-template-columns: 1fr; }
+      .career-card { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sky Background -->
+  <div class="sky-bg">
+    <div class="sun-glow"></div>
+    <div class="cloud-layer">
+      <div class="cloud c1"></div>
+      <div class="cloud c2"></div>
+      <div class="cloud c3"></div>
+      <div class="cloud c4"></div>
+      <div class="cloud c5"></div>
+      <div class="cloud c6"></div>
+      <div class="cloud c7"></div>
+      <div class="cloud c8"></div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav>
+    <a href="index.html" class="nav-logo">Laudya<span>Hasri</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" class="active">About Me</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="porto.html">Portfolio</a></li>
+      <li><a href="cv.html">CV</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html">Home</a>
+    <a href="about.html">About Me</a>
+    <li><a href="skills.html">Skills</a></li>
+    <a href="porto.html">Portfolio</a>
+    <a href="cv.html">CV</a>
+  </div>
+
+  <!-- Page Wrapper -->
+  <div class="page-wrapper">
+    <main class="page-content">
+
+      
+      <h1 class="section-title">About <span style="font-style:italic;color:var(--accent);">Me</span></h1>
+      <div class="divider"></div>
+
+      <!-- Profile Hero -->
+      <div class="glass-card profile-hero">
+        <div class="profile-avatar">
+          <img src="IMG/me 3.jpeg">
+        </div>
+        <div class="profile-info">
+          <h2 class="profile-name">Laudya Hasri Washa-az Ramadhani</h2>
+          <p class="profile-tagline">Student · SIJA · Semarang, Central Java</p>
+          <p class="profile-bio">
+            Hello, my name is Laudya. I am a passionate student who is always eager to grow.
+            I believe that consistent learning will bring me closer to my goals.
+          </p>
+        </div>
+      </div>
+
+      <!-- Riwayat Keluarga + Pendidikan -->
+      <div class="cards-grid delay-1">
+
+        <div class="glass-card info-card">
+          <span class="card-icon">👨‍👩‍👧‍👦</span>
+          <p class="card-label">Family History</p>
+          <h3 class="card-title">Family Background</h3>
+          <p> I am the second of three siblings; I have an older sister and a younger sister.</p>
+          </table>
+        </div>
+
+        <div class="glass-card info-card">
+          <span class="card-icon">🎓</span>
+          <p class="card-label">Education</p>
+          <h3 class="card-title">Academic Journey</h3>
+          <ul class="timeline">
+            <li>
+              <p class="tl-year">2016 – 2021</p>
+              <p class="tl-school">SDN Pleburan 04</p>
+              <p class="tl-major">Semarang, Central Java</p>
+            </li>
+            <li>
+              <p class="tl-year">2021 – 2024</p>
+              <p class="tl-school">SMP Negeri 03</p>
+              <p class="tl-major">Semarang, Central Java</p>
+            </li>
+            <li>
+              <p class="tl-year">2024 – 2028</p>
+              <p class="tl-school">SMK Negeri 07</p>
+              <p class="tl-major">SIJA · Semarang, Central Java</p>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Hobi + Minat -->
+      <div class="cards-grid delay-2">
+
+        <div class="glass-card info-card">
+          <span class="card-icon">🎯</span>
+          <p class="card-label">Hobby</p>
+          <h3 class="card-title">My Favorites</h3>
+          <ul class="card-list">
+            <li>Dance</li>
+            <li>Cooking</li>
+            <li>Listening to music</li>
+          
+          </ul>
+        </div>
+
+        <div class="glass-card info-card">
+          <span class="card-icon">💡</span>
+          <p class="card-label">Interest</p>
+          <h3 class="card-title">What I'm Interested In</h3>
+          <ul class="card-list">
+            <li>Programming</li>
+            <li>Web develop</li>
+            <li>UI/UX</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Soft Skill + Hard Skill -->
+      <div class="skills-wrapper delay-3">
+
+        <div class="glass-card info-card">
+          <p class="card-label">Self-Esteem</p>
+          <h3 class="skill-group-title">🤝 Soft Skills</h3>
+          <div>
+            <span class="skill-tag skill-soft">Communication</span>
+            <span class="skill-tag skill-soft">Teamwork</span>
+            <span class="skill-tag skill-soft">Discipline</span>
+            <span class="skill-tag skill-soft">Adaptive</span>
+            <span class="skill-tag skill-soft">Creative</span>
+            
+          </div>
+        </div>
+
+        <div class="glass-card info-card">
+          <p class="card-label">Self-Esteem</p>
+          <h3 class="skill-group-title">⚙️ Hard Skills</h3>
+          <div>
+            <span class="skill-tag skill-hard">Microsoft Office</span>
+            <span class="skill-tag skill-hard">Graphic Design</span>
+            <span class="skill-tag skill-hard">Programming</span>
+            <span class="skill-tag skill-hard">Others Skill</span>
+           
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Cita-cita / Career Goal -->
+      <div class="glass-card career-card delay-4">
+        <p class="card-label" style="margin-bottom:14px;">Career Goal</p>
+        <p class="career-quote">
+          <span class="quote-mark">"</span>
+          I dream of becoming a professional dancer without giving up my passion for web development. For me, dancing is a form of self-expression, while coding is how I create solutions.
+          <span class="quote-mark">"</span>
+        </p>
+        <p style="font-size:0.85rem;color:var(--text-light);margin-top:10px;">— Laudya</p>
+      </div>
+
+    </main>
+
+    <footer>
+      <p>© 2026 <strong style="color:var(--accent-deep)">Laudya</strong>. Personal Branding.</p>
+    </footer>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const nav = document.getElementById('mobileNav');
+      nav.classList.toggle('open');
+    }
+    document.querySelectorAll('.mobile-nav a').forEach(a =>
+      a.addEventListener('click', () => document.getElementById('mobileNav').classList.remove('open'))
+    );
+  </script>
+</body>
+</html>

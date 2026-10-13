@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio – Laudya Hasri</title>
+  <link rel="stylesheet" href="styleporto.css" />
+  <style>
+    /* ── PORTFOLIO PAGE STYLES ── */
+    .portfolio-hero {
+      padding: 140px 5% 60px;
+      text-align: center;
+    }
+    .portfolio-hero .section-subtitle { justify-content: center; display: flex; }
+    .portfolio-hero .section-title { margin-bottom: 1rem; }
+    .portfolio-hero .divider { margin: 1rem auto 1.5rem; }
+    .portfolio-hero p {
+      max-width: 560px;
+      margin: 0 auto;
+      color: var(--text-mid);
+      font-size: 1rem;
+      line-height: 1.75;
+    }
+
+    /* Filter Tabs */
+    .filter-bar {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      padding: 0 5% 3rem;
+    }
+    .filter-btn {
+      padding: 0.5rem 1.4rem;
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: 1.5px solid rgba(74,127,181,0.35);
+      background: rgba(255,255,255,0.5);
+      color: var(--text-mid);
+      transition: all 0.25s;
+      backdrop-filter: blur(10px);
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+      box-shadow: 0 4px 14px rgba(74,127,181,0.3);
+    }
+
+    /* Portfolio Grid */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem;
+      padding: 0 5% 5rem;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    /* Project Card */
+    .project-card {
+      background: rgba(255,255,255,0.6);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1.5px solid rgba(255,255,255,0.88);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(74,127,181,0.1);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+    }
+    .project-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 48px rgba(74,127,181,0.2);
+    }
+
+    /* Card Image */
+    .card-img-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      background: linear-gradient(135deg, #c8dff4, #daeef8);
+    }
+    .card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.45s ease;
+    }
+    .project-card:hover .card-img-wrap img { transform: scale(1.06); }
+    .img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      opacity: 0.4;
+    }
+    .card-badge {
+      position: absolute;
+      top: 14px; left: 14px;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(8px);
+      color: var(--accent-deep);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 50px;
+      border: 1px solid rgba(255,255,255,0.9);
+    }
+
+    /* Click-to-open hint overlay */
+    .card-overlay-hint {
+      position: absolute;
+      inset: 0;
+      background: rgba(44, 82, 130, 0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s;
+    }
+    .project-card:hover .card-overlay-hint { background: rgba(44,82,130,0.18); }
+    .hint-icon {
+      background: rgba(255,255,255,0.92);
+      border-radius: 50%;
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 0.3s;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+    .project-card:hover .hint-icon { opacity: 1; transform: scale(1); }
+    .hint-icon svg { width: 20px; height: 20px; stroke: var(--accent-deep); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* Gallery count badge */
+    .gallery-count {
+      position: absolute;
+      bottom: 12px; right: 12px;
+      background: rgba(0,0,0,0.45);
+      color: white;
+      font-size: 0.72rem;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 50px;
+      display: flex; align-items: center; gap: 4px;
+      backdrop-filter: blur(6px);
+    }
+    .gallery-count svg { width: 12px; height: 12px; stroke: white; fill: none; stroke-width: 2; }
+
+    /* Card Body */
+    .card-body {
+      padding: 1.6rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-meta {
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+    .card-desc {
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      line-height: 1.72;
+      flex: 1;
+      margin-bottom: 1.2rem;
+    }
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1.3rem;
+    }
+    .tag {
+      font-size: 0.72rem;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 50px;
+      background: rgba(74,127,181,0.1);
+      color: var(--accent-deep);
+      border: 1px solid rgba(74,127,181,0.2);
+      letter-spacing: 0.04em;
+    }
+    .card-footer {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(74,127,181,0.1);
+    }
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .card-link:hover { color: var(--accent-deep); gap: 0.6rem; }
+    .card-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    .project-card.hidden { display: none; }
+
+    /* ════════════════════════════════
+       MODAL LIGHTBOX
+    ════════════════════════════════ */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(10, 20, 40, 0.82);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: modalFadeIn 0.3s ease;
+    }
+    .modal-overlay.open { display: flex; }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .modal-box {
+      background: rgba(255,255,255,0.96);
+      border-radius: 24px;
+      width: 100%;
+      max-width: 800px;
+      max-height: 92vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      box-shadow: 0 24px 80px rgba(10,20,40,0.35);
+      animation: modalSlideUp 0.35s cubic-bezier(0.34,1.2,0.64,1) both;
+      position: relative;
+    }
+    @keyframes modalSlideUp {
+      from { opacity: 0; transform: translateY(40px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Close button */
+    .modal-close {
+      position: absolute;
+      top: 16px; right: 16px;
+      z-index: 10;
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      border: 1.5px solid rgba(74,127,181,0.2);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .modal-close:hover { background: #fee2e2; border-color: #fca5a5; transform: rotate(90deg); }
+    .modal-close svg { width: 18px; height: 18px; stroke: #444; fill: none; stroke-width: 2.5; stroke-linecap: round; }
+
+    /* Gallery Slider */
+    .modal-gallery {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, #c8dff4, #daeef8);
+      overflow: hidden;
+      border-radius: 24px 24px 0 0;
+    }
+
+    .gallery-slides {
+      display: flex;
+      height: 100%;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+
+    .gallery-slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #c8dff4, #daeef8);
+    }
+    .gallery-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    .gallery-slide .slide-placeholder {
+      font-size: 4rem;
+      opacity: 0.35;
+    }
+
+    /* Arrow buttons */
+    .gallery-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 5;
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      border: 1.5px solid rgba(255,255,255,0.95);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+    .gallery-arrow:hover { background: white; transform: translateY(-50%) scale(1.08); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+    .gallery-arrow svg { width: 18px; height: 18px; stroke: var(--accent-deep); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .arrow-prev { left: 14px; }
+    .arrow-next { right: 14px; }
+    .gallery-arrow:disabled { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
+
+    /* Dots */
+    .gallery-dots {
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 7px;
+      z-index: 5;
+    }
+    .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.55);
+      border: 1.5px solid rgba(255,255,255,0.8);
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .dot.active {
+      background: white;
+      width: 22px;
+      border-radius: 4px;
+    }
+
+    /* Slide counter */
+    .slide-counter {
+      position: absolute;
+      top: 14px;
+      right: 56px;
+      background: rgba(0,0,0,0.45);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 50px;
+      backdrop-filter: blur(6px);
+      z-index: 5;
+    }
+
+    /* Modal Content */
+    .modal-content {
+      padding: 28px 32px 32px;
+    }
+    .modal-badge {
+      display: inline-block;
+      font-size: 0.70rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(74,127,181,0.1);
+      border: 1px solid rgba(74,127,181,0.2);
+      padding: 3px 12px;
+      border-radius: 50px;
+      margin-bottom: 10px;
+    }
+    .modal-meta {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+    .modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 600;
+      color: var(--text-dark);
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+    .modal-desc {
+      font-size: 0.90rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+    .modal-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 22px;
+    }
+    .modal-footer {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      padding-top: 20px;
+      border-top: 1px solid rgba(74,127,181,0.1);
+    }
+
+    /* Swipe support indicator */
+    .swipe-hint {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-light);
+      padding: 6px 0 0;
+      opacity: 0.7;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .portfolio-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+    }
+    @media (max-width: 600px) {
+      .portfolio-hero { padding: 110px 5% 40px; }
+      .portfolio-grid { grid-template-columns: 1fr; gap: 1.25rem; padding: 0 4% 4rem; }
+      .filter-bar { gap: 0.5rem; padding: 0 4% 2.5rem; }
+      .filter-btn { font-size: 0.78rem; padding: 0.45rem 1.1rem; }
+      .modal-box { border-radius: 20px; max-height: 95vh; }
+      .modal-content { padding: 22px 20px 28px; }
+      .gallery-arrow { width: 36px; height: 36px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SKY BACKGROUND -->
+  <div class="sky-bg">
+    <div class="sun-glow"></div>
+    <div class="cloud-layer">
+      <div class="cloud c1"></div><div class="cloud c2"></div>
+      <div class="cloud c3"></div><div class="cloud c4"></div>
+      <div class="cloud c5"></div><div class="cloud c6"></div>
+      <div class="cloud c7"></div><div class="cloud c8"></div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="index.html" class="nav-logo">Laudya<span>Hasri</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Me</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="portfolio.html" class="active">Portfolio</a></li>
+      <li><a href="cv.html">CV</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html">Home</a>
+    <a href="about.html">About Me</a>
+    <a href="skills.html">Skills</a>
+    <a href="portfolio.html">Portflio</a>
+    <a href="cv.html">CV</a>
+  </div>
+
+  <!-- PAGE CONTENT -->
+  <div class="page-wrapper">
+
+    <!-- HERO -->
+    <section class="portfolio-hero">
+      <p class="section-subtitle">Works &amp; Project</p>
+      <h1 class="section-title">Portfolio</h1>
+      <div class="divider"></div>
+      <p>A collection of my work and projects—from design and development to research and innovation.</p>
+    </section>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterCards('all', this)">ALL</button>
+      <button class="filter-btn" onclick="filterCards('web', this)">Web Dev</button>
+      <button class="filter-btn" onclick="filterCards('design', this)">Design</button>
+      <button class="filter-btn" onclick="filterCards('app', this)">Apps</button>
+      <button class="filter-btn" onclick="filterCards('other', this)">Others</button>
+    </div>
+
+    <!-- PORTFOLIO GRID -->
+    <!--
+      DATA-IMAGES: pisahkan beberapa path gambar dengan tanda | (pipe)
+      Contoh: data-images="IMG/foto1.jpg|IMG/foto2.jpg|IMG/foto3.jpg"
+      Jika hanya 1 gambar, cukup tulis 1 path saja.
+    -->
+    <div class="portfolio-grid" id="portfolioGrid">
+
+      <!-- CARD 1 -->
+      <article class="project-card" data-category="web"
+        data-title="PANIC"
+        data-meta="2026 · School Project"
+        data-badge="Web Dev"
+        data-desc="A beauty and fashion website created as a school project. HTML, CSS, and JavaScript were used to create an attractive and responsive design."
+        data-tags="HTML|CSS|JavaScript"
+        data-link="https://sanshavyendra.github.io/PanicBeautyFashion/"
+        data-link-label="Take a look"
+        data-images="IMG/Screenshot 2026-05-09 161646.png"
+        data-placeholder="🌐"
+        onclick="openModal(this)">
+        <div class="card-img-wrap">
+          <img src="IMG/Screenshot 2026-05-09 161646.png" alt="PANIC"
+               onerror="this.style.display='none'; this.parentElement.querySelector('.img-placeholder').style.display='flex';" />
+          <div class="img-placeholder" style="display:none">🌐</div>
+          <span class="card-badge">Web Dev</span>
+          <div class="card-overlay-hint"><div class="hint-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        </div>
+        <div class="card-body">
+          <p class="card-meta">2026 · School Project</p>
+          <h2 class="card-title">PANIC</h2>
+          <p class="card-desc">Website beauty and fashion.</p>
+          <div class="card-tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
+          <div class="card-footer">
+            <span class="card-link">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Take a look
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 2 -->
+      <article class="project-card" data-category="other"
+        data-title="Mini Games"
+        data-meta="2026 · Mini Games"
+        data-badge="Others"
+        data-desc="Mini-games I've made"
+        data-tags="HTML|CSS|JS"
+        data-link=""
+        data-link-label="Take a look"
+        data-images="IMG/bimbuy.png|IMG/yuyogame.jfif"
+        data-placeholder="🎨"
+        onclick="openModal(this)">
+        <div class="card-img-wrap">
+          <img src="IMG/bimbuy.png" | src="IMG/yuyogame.jfif"  alt="Yeurika Debut Stream"
+               onerror="this.style.display='none'; this.parentElement.querySelector('.img-placeholder').style.display='flex';" />
+          
+          <div class="img-placeholder" style="display:none">🎨</div>
+          <span class="card-badge">MINI GAME</span>
+          <div class="card-overlay-hint"><div class="hint-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+          <card class="dataset images">
+         `<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+         
+    </card>
+        </div>
+        <div class="card-body">
+          <p class="card-meta">2026 · Mini Games</p>
+          <h2 class="card-title">MINI GAMES</h2>
+          <p class="card-desc">Mini-games I've made</p>
+          <div class="card-tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
+          <div class="card-footer">
+            <span class="card-link">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Take a look
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 3 -->
+      <article class="project-card" data-category="design"
+        data-title="Gallery Design"
+        data-meta="Design"
+        data-badge="Desain"
+        data-desc="A collection of designs I’ve created."
+        data-tags="Canva"
+        data-link="https://canva.link/designlaut"
+        data-link-label="Take a look"
+        data-images="IMG/liam.png|IMG/dimsea.png|IMG/shanlang.png|IMG/4.png|IMG/5.png"
+        data-placeholder="📱"
+        onclick="openModal(this)">
+        <div class="card-img-wrap">
+          <img src="IMG/liam.png" | src="IMG/dimsea.png" | src="IMG/shanlang.png" | src="IMG/4.png" | src="IMG/5.png" alt="Takeda Debut Stream"
+               onerror="this.style.display='none'; this.parentElement.querySelector('.img-placeholder').style.display='flex';" />
+          <div class="img-placeholder" style="display:none">📱</div>
+          <span class="card-badge">Design</span>
+          <div class="card-overlay-hint"><div class="hint-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        </div>
+        <div class="card-body">
+          <p class="card-meta">Design</p>
+          <h2 class="card-title">Gallery Design</h2>
+          <p class="card-desc">A collection of designs I’ve created.</p>
+          <div class="card-tags"><span class="tag">Canva</span></div>
+          <div class="card-footer">
+            <span class="card-link">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Take a look
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 4 -->
+      <article class="project-card" data-category="web"
+        data-title="Website Tragedi Trisakti"
+        data-meta="History Project"
+        data-badge="Web Dev"
+        data-desc="Creating a website for a history assignment."
+        data-tags="HTML|CSS|JavaScript"
+        data-link="https://sanshavyendra.github.io/TragediTrisakti-kelompok11/"
+        data-link-label="Take a look"
+        data-images="IMG/web 2.png"
+        data-placeholder="💻"
+        onclick="openModal(this)">
+        <div class="card-img-wrap">
+          <img src="IMG/web 2.png">
+          <div class="img-placeholder">💻</div>
+          <span class="card-badge">Web Dev</span>
+          <div class="card-overlay-hint"><div class="hint-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        </div>
+        <div class="card-body">
+          <p class="card-meta">History Project</p>
+          <h2 class="card-title">Website Tragedi Trisakti</h2>
+          <p class="card-desc">Creating a website for a history assignment.</p>
+          <div class="card-tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
+          <div class="card-footer">
+            <span class="card-link">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Take a look
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 5 -->
+      <article class="project-card" data-category="other"
+        data-title="Mash Up & Mixxing Music"
+        data-meta="Mash Up & Mixxing"
+        data-badge="Others"
+        data-desc="Combining two or more pieces of music into one."
+        data-tags="Presentation|research"
+        data-link="https://drive.google.com/file/d/1sRkeU9BNIkne5j2818LNaBR5Jj9B_P1y/view?usp=drivesdk"
+        data-link-label="Take a look"
+        data-images="IMG/mashup.jpeg"
+        data-thumb="IMG/mashup.jpeg"
+        data-placeholder="🏆"
+        onclick="openModal(this)">
+        <div class="card-img-wrap">
+          <img src="IMG/mashup.jpeg" alt="Mixxing Audio">
+          <div class="img-placeholder">🏆</div>
+          <span class="card-badge">Others</span>
+          <div class="card-overlay-hint"><div class="hint-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        </div>
+        <div class="card-body">
+          <p class="card-meta">Mash Up & Mixxing</p>
+          <h2 class="card-title">Mash Up & Mixxing Music</h2>
+          <p class="card-desc">Combining two or more pieces of music into one.</p>
+          <div class="card-tags"><span class="tag">Capcut</span></div>
+          <div class="card-footer">
+            <span class="card-link">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Take a look
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 6 -->
+      <article class="project-card" data-category="app"
+        data-title="Coming Soon"
+        data-meta="Coming Soon"
+        data-badge="App"
+        data-desc="Coming Soon"
+        data-tags="soon"
+        data-link="#"
+        data-link-label="Take a look"
+        data-images="IMG/coming.png"
+        data-placeholder="✏️"
+        onclick="openModal(this)">
+        <div class="card-img-wrap">
+          <img src="IMG/coming.png">
+          <div class="img-placeholder">✏️</div>
+          <span class="card-badge">App</span>
+          <div class="card-overlay-hint"><div class="hint-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        </div>
+        <div class="card-body">
+          <p class="card-meta">Coming Soon</p>
+          <h2 class="card-title">Coming Soon</h2>
+          <p class="card-desc">Coming Soon</p>
+          <div class="card-tags"><span class="tag">Coming Soon</span><span class="tag">Coming Soon</span></div>
+          <div class="card-footer">
+            <span class="card-link">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Take a look
+            </span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+    <!-- END GRID -->
+
+  </div><!-- END PAGE WRAPPER -->
+
+  <footer>
+    <p>&copy; 2026 <strong>Laudya</strong> · Personal Branding</p>
+  </footer>
+
+  <!-- ════════════════════════════
+       MODAL LIGHTBOX
+  ════════════════════════════ -->
+  <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+    <div class="modal-box" id="modalBox">
+
+      <!-- Close -->
+      <button class="modal-close" onclick="closeModal()" aria-label="Tutup">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+
+      <!-- Gallery -->
+      <div class="modal-gallery" id="modalGallery">
+        <div class="gallery-slides" id="gallerySlides"></div>
+        <button class="gallery-arrow arrow-prev" id="arrowPrev" onclick="slideGallery(-1)" aria-label="Sebelumnya">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="gallery-arrow arrow-next" id="arrowNext" onclick="slideGallery(1)" aria-label="Berikutnya">
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <div class="gallery-dots" id="galleryDots"></div>
+        <div class="slide-counter" id="slideCounter">1 / 1</div>
+      </div>
+
+      <!-- Content -->
+      <div class="modal-content">
+        <div id="modalBadge" class="modal-badge"></div>
+        <p class="modal-meta" id="modalMeta"></p>
+        <h2 class="modal-title" id="modalTitle"></h2>
+        <p class="modal-desc" id="modalDesc"></p>
+        <div class="modal-tags" id="modalTags"></div>
+        <div class="modal-footer" id="modalFooter"></div>
+        <p class="swipe-hint" id="swipeHint">← Swipe or click the arrow to view another image →</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js">
+  </script>
+</body>
+</html>

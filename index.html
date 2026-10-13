@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HOME — Personal Branding</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ===== HERO SECTION ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 100px 5% 60px;
+    }
+
+    .hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    /* LEFT */
+    .hero-text { animation: fadeUp 0.9s ease both; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1rem;
+      background: rgba(74,127,181,0.12);
+      border: 1px solid rgba(74,127,181,0.25);
+      border-radius: 50px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+    .hero-badge::before {
+      content: '';
+      display: block;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent-gold);
+    }
+
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      font-weight: 600;
+      line-height: 1.05;
+      color: var(--text-dark);
+      margin-bottom: 0.4rem;
+    }
+
+    .hero-nickname {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-style: italic;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-tagline {
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
+      color: var(--text-mid);
+      font-weight: 500;
+      margin-bottom: 1.2rem;
+      line-height: 1.5;
+    }
+
+    .hero-tagline strong { color: var(--accent-deep); }
+
+    .hero-desc {
+      font-size: 0.97rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    /* RIGHT - Photo Card */
+    .hero-photo-wrapper {
+      animation: fadeUp 0.9s ease 0.2s both;
+      display: flex;
+      justify-content: center;
+    }
+
+    .photo-card {
+      position: relative;
+      width: 340px;
+    }
+
+    .photo-frame {
+      width: 100%;
+      aspect-ratio: 3/4;
+      border-radius: 24px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.5);
+      border: 2px solid var(--glass-border);
+      box-shadow: 0 20px 60px rgba(74,127,181,0.2), 0 2px 8px rgba(255,255,255,0.8) inset;
+      position: relative;
+    }
+
+    .photo-frame img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .photo-placeholder {
+      width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      color: var(--text-light);
+    }
+
+    .photo-placeholder svg {
+      width: 80px; height: 80px;
+      opacity: 0.35;
+    }
+
+    .photo-placeholder p {
+      font-size: 0.85rem;
+      opacity: 0.6;
+      text-align: center;
+      padding: 0 2rem;
+    }
+
+    /* Floating label on photo */
+    .photo-badge {
+      position: absolute;
+      bottom: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      border-radius: 50px;
+      padding: 0.5rem 1.2rem;
+      box-shadow: 0 4px 20px rgba(74,127,181,0.2);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent-deep);
+      white-space: nowrap;
+      border: 1px solid rgba(74,127,181,0.15);
+      letter-spacing: 0.05em;
+    }
+
+    /* Deco dots */
+    .photo-deco {
+      position: absolute;
+      top: -20px; right: -20px;
+      width: 80px; height: 80px;
+      background: radial-gradient(circle, var(--accent-gold) 1.5px, transparent 1.5px);
+      background-size: 12px 12px;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* ===== STATS STRIP ===== */
+    .stats-strip {
+      padding: 0 5% 60px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .stats-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .stat-card {
+      padding: 1.5rem 2rem;
+      text-align: center;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.55);
+      border: 1px solid rgba(255,255,255,0.85);
+      backdrop-filter: blur(12px);
+      transition: transform 0.3s;
+    }
+    .stat-card:hover { transform: translateY(-4px); }
+
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: var(--accent-deep);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ===== ANIMATION ===== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 3rem;
+      }
+      .hero-desc { max-width: 100%; }
+      .hero-buttons { justify-content: center; }
+      .hero-photo-wrapper { order: -1; }
+      .photo-card { width: 260px; }
+    }
+
+    @media (max-width: 600px) {
+      .stats-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SKY BACKGROUND -->
+  <div class="sky-bg">
+    <div class="sun-glow"></div>
+    <div class="cloud-layer">
+      <div class="cloud c1"></div>
+      <div class="cloud c2"></div>
+      <div class="cloud c3"></div>
+      <div class="cloud c4"></div>
+      <div class="cloud c5"></div>
+      <div class="cloud c6"></div>
+      <div class="cloud c7"></div>
+      <div class="cloud c8"></div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="index.html" class="nav-logo">Laudya<span>Hasri</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">HOME</a></li>
+      <li><a href="about.html">About Me</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="porto.html">Portofolio</a></li>
+      <li><a href="cv.html">CV</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html">HOME</a>
+    <a href="about.html">About Me</a>
+    <a href="skills.html">Skills</a>
+    <a href="porto.html">Portfolio</a>
+    <a href="cv.html">CV</a>
+  </div>
+
+  <!-- PAGE CONTENT -->
+  <div class="page-wrapper">
+    <section class="hero">
+      <div class="hero-inner">
+
+        <!-- LEFT: TEXT -->
+        <div class="hero-text">
+          <div class="hero-badge">Welcome!</div>
+          <h1 class="hero-name">Laudya Hasri<br></h1>
+          <p class="hero-nickname">"Laudya"</p>
+          <p class="hero-tagline">
+            <strong>Future Web Developer</strong> | Always Curious, Always Growing
+          </p>
+          <p class="hero-desc">
+            I am an aspiring developer who is always interested in trying and learning new things in the world of technology. I believe that consistent learning will bring me closer to my goals. Let’s keep growing and creating!
+          </p>
+          <div class="hero-buttons">
+            <a href="about.html" class="btn-primary">
+              Get to know me
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="cv.html" class="btn-outline">Lihat CV</a>
+          </div>
+        </div>
+
+        <!-- RIGHT: PHOTO -->
+        <div class="hero-photo-wrapper">
+          <div class="photo-card">
+            <div class="photo-deco"></div>
+            <div class="photo-frame">
+             <div><img src="IMG/me 4.jpeg"></div> 
+              <div class="photo-placeholder">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="50" cy="35" r="20" stroke="#4a7fb5" stroke-width="2"/>
+                  <path d="M10 85 C10 65 25 55 50 55 C75 55 90 65 90 85" stroke="#4a7fb5" stroke-width="2" fill="none"/>
+                </svg>
+            
+              </div>
+            </div>
+            <div class="photo-badge">✦ Laudya</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- STATS STRIP -->
+    <section class="stats-strip">
+      <div class="stats-inner">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-num">4</div>
+            <div class="stat-label">Project Completed</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num"></div>
+            <div class="stat-label"></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">3+</div>
+            <div class="stat-label">Academic Year</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>© 2026 <strong>Laudya</strong> · Personal Branding</p>
+    </footer>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('mobileNav').classList.toggle('open');
+    }
+    // Close menu on link click
+    document.querySelectorAll('.mobile-nav a').forEach(a => {
+      a.addEventListener('click', () => document.getElementById('mobileNav').classList.remove('open'));
+    });
+  </script>
+</body>
+</html>

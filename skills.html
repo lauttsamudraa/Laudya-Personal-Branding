@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skills — Personal Branding</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .skills-page {
+      padding: 120px 5% 60px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .skills-header { margin-bottom: 3.5rem; animation: fadeUp 0.7s ease both; }
+
+    /* ===== SKILLS GRID ===== */
+    .skills-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    /* Category Card */
+    .category-card {
+      padding: 2rem;
+      background: rgba(255,255,255,0.6);
+      backdrop-filter: blur(18px);
+      border: 1.5px solid var(--glass-border);
+      border-radius: 20px;
+      box-shadow: var(--shadow-soft);
+      animation: fadeUp 0.7s ease both;
+    }
+    .category-card:nth-child(2) { animation-delay: 0.1s; }
+    .category-card:nth-child(3) { animation-delay: 0.15s; }
+    .category-card:nth-child(4) { animation-delay: 0.2s; }
+
+    .category-card.wide {
+      grid-column: 1 / -1;
+    }
+
+    .cat-icon-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .cat-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .cat-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    /* Skill Bar */
+    .skill-bar-item { margin-bottom: 1.4rem; }
+    .skill-bar-item:last-child { margin-bottom: 0; }
+
+    .skill-bar-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.45rem;
+    }
+
+    .skill-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .skill-name .s-icon { font-size: 1rem; }
+
+    .skill-pct {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .bar-track {
+      height: 7px;
+      background: rgba(74,127,181,0.1);
+      border-radius: 50px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 50px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-gold));
+      width: 0%;
+      transition: width 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    /* Tools/Apps grid */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 1rem;
+    }
+
+    .tool-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 0.5rem;
+      background: white;
+      border-radius: 14px;
+      border: 1px solid rgba(74,127,181,0.12);
+      box-shadow: var(--shadow-soft);
+      transition: transform 0.25s, box-shadow 0.25s;
+      text-align: center;
+    }
+    .tool-item:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+
+    .tool-icon { font-size: 1.8rem; }
+    .tool-name { font-size: 0.75rem; font-weight: 600; color: var(--text-mid); }
+    .tool-level {
+      font-size: 0.65rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      background: rgba(74,127,181,0.1);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Cert / Extra badges */
+    .cert-list { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+    .cert-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.1rem;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid rgba(74,127,181,0.15);
+      font-size: 0.82rem;
+      color: var(--text-dark);
+      font-weight: 500;
+      box-shadow: var(--shadow-soft);
+    }
+    .cert-badge .cert-icon { font-size: 1.1rem; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 700px) {
+      .skills-layout { grid-template-columns: 1fr; }
+      .category-card.wide { grid-column: auto; }
+      .tools-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="sky-bg">
+    <div class="sun-glow"></div>
+    <div class="cloud-layer">
+      <div class="cloud c1"></div><div class="cloud c2"></div>
+      <div class="cloud c3"></div><div class="cloud c4"></div>
+      <div class="cloud c5"></div><div class="cloud c6"></div>
+    </div>
+  </div>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Laudya<span>Hasri</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="about.html">About Me</a></li>
+      <li><a href="skills.html" class="active">Skills</a></li>
+      <li><a href="porto.html">Portfolio</a></li>
+      <li><a href="cv.html">CV</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html">HOME</a><a href="about.html">About Me</a>
+    <a href="skills.html">Skills</a><a href="porto.html">Portofolio</a><a href="cv.html">CV</a>
+  </div>
+
+  <div class="page-wrapper">
+    <div class="skills-page">
+
+      <div class="skills-header">
+        <p class="section-subtitle">My Skills</p>
+        <h1 class="section-title">what I can do</h1>
+        <div class="divider"></div>
+        <p style="color:var(--text-mid); font-size:0.95rem; max-width:520px; line-height:1.8;">
+          A collection of skills I’ve developed through learning and practice. I continue to grow every day.
+        </p>
+      </div>
+
+      <div class="skills-layout">
+
+        <!-- Web Development -->
+        <div class="category-card">
+          <div class="cat-icon-wrap">
+            <div class="cat-icon">🌐</div>
+            <span class="cat-title">Web Development</span>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-top">
+              <span class="skill-name"><span class="s-icon">🧱</span> HTML</span>
+              <span class="skill-pct">80%</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" data-pct="80"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-top">
+              <span class="skill-name"><span class="s-icon">🎨</span> CSS Dasar</span>
+              <span class="skill-pct">70%</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" data-pct="70"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-top">
+              <span class="skill-name"><span class="s-icon">⚡</span> JavaScript Dasar</span>
+              <span class="skill-pct">60%</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" data-pct="60"></div></div>
+          </div>
+        </div>
+
+        <!-- Networking -->
+        <div class="category-card">
+          <div class="cat-icon-wrap">
+            <div class="cat-icon">🔌</div>
+            <span class="cat-title">Networking</span>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-top">
+              <span class="skill-name"><span class="s-icon">🖧</span> Cisco Packet Tracer</span>
+              <span class="skill-pct">80%</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" data-pct="80"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-top">
+              <span class="skill-name"><span class="s-icon">📡</span> Basic Router Configuration</span>
+              <span class="skill-pct">60%</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" data-pct="60"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-top">
+              <span class="skill-name"><span class="s-icon">🔐</span> Cyber Security</span>
+              <span class="skill-pct">40%</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" data-pct="40"></div></div>
+          </div>
+        </div>
+
+        <!-- Design & Editing -->
+        <div class="category-card">
+          <div class="cat-icon-wrap">
+            <div class="cat-icon">✏️</div>
+            <span class="cat-title">Design &amp; Editing</span>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-top">
+              <span class="skill-name"><span class="s-icon">🖼️</span> Canva</span>
+              <span class="skill-pct">90%</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" data-pct="90"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-top">
+              <span class="skill-name"><span class="s-icon">🎬</span> Video Editing (CapCut/etc)</span>
+              <span class="skill-pct">90%</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" data-pct="90"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-top">
+              <span class="skill-name"><span class="s-icon">📐</span> Figma (Basic)</span>
+              <span class="skill-pct">20%</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" data-pct="20"></div></div>
+          </div>
+        </div>
+
+        <!-- Office & Productivity -->
+        <div class="category-card">
+          <div class="cat-icon-wrap">
+            <div class="cat-icon">📊</div>
+            <span class="cat-title">Office &amp; Productivity</span>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-top">
+              <span class="skill-name"><span class="s-icon">📝</span> Microsoft Word</span>
+              <span class="skill-pct">90%</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" data-pct="90"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-top">
+              <span class="skill-name"><span class="s-icon">📈</span> Microsoft Excel</span>
+              <span class="skill-pct">80%</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" data-pct="80"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-top">
+              <span class="skill-name"><span class="s-icon">📊</span> Microsoft PowerPoint</span>
+              <span class="skill-pct">80%</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" data-pct="80"></div></div>
+          </div>
+        </div>
+
+        <!-- Tools yang Digunakan -->
+        <div class="category-card wide">
+          <div class="cat-icon-wrap">
+            <div class="cat-icon">🛠️</div>
+            <span class="cat-title">Tools Used</span>
+          </div>
+          <div class="tools-grid">
+            <div class="tool-item">
+              <span class="tool-icon">💻</span>
+              <span class="tool-name">VS Code</span>
+              <span class="tool-level">Advanced</span>
+            </div>
+            <div class="tool-item">
+              <span class="tool-icon">🎨</span>
+              <span class="tool-name">Canva</span>
+              <span class="tool-level">Advanced</span>
+            </div>
+            <div class="tool-item">
+              <span class="tool-icon">🖧</span>
+              <span class="tool-name">Cisco PT</span>
+              <span class="tool-level">Intermediate</span>
+            </div>
+            <div class="tool-item">
+              <span class="tool-icon">📱</span>
+              <span class="tool-name">CapCut</span>
+              <span class="tool-level">Advanced</span>
+            </div>
+            <div class="tool-item">
+              <span class="tool-icon">🐙</span>
+              <span class="tool-name">GitHub</span>
+              <span class="tool-level">Basic</span>
+            </div>
+            <div class="tool-item">
+              <span class="tool-icon">🌐</span>
+              <span class="tool-name">Browser DevTools</span>
+              <span class="tool-level">Basic</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <footer><p>© 2026 <strong>Laudya</strong> · Personal Branding</p></footer>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('mobileNav').classList.toggle('open');
+    }
+
+    // Animate skill bars on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('.bar-fill').forEach(bar => {
+            bar.style.width = bar.dataset.pct + '%';
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.category-card').forEach(card => observer.observe(card));
+
+    // Also trigger immediately for visible elements
+    setTimeout(() => {
+      document.querySelectorAll('.bar-fill').forEach(bar => {
+        bar.style.width = bar.dataset.pct + '%';
+      });
+    }, 400);
+  </script>
+</body>
+</html>
